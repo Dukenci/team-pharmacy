@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+
 	"github.com/itsvagapov/team-pharmacy/internal/models"
 	"gorm.io/gorm"
 )
@@ -21,7 +23,7 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 
 func (r *gormCategoryRepository) Create(category *models.Category) error {
 	if category == nil {
-		return nil
+		return errors.New("category is nill")
 	}
 
 	return r.db.Create(category).Error

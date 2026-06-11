@@ -5,10 +5,10 @@ type Category struct {
 	Name string `json:"name"`
 }
 
-type CreateCategoryRequest struct {
+type CategoryCreateRequest struct {
 	Name string `json:"name"`
 }
 
-type UpdateCategoryRequest struct {
+type CategoryUpdateRequest struct {
 	Name *string `json:"name"`
 }

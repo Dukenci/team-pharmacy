@@ -2,15 +2,16 @@ package service
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/itsvagapov/team-pharmacy/internal/models"
 	"github.com/itsvagapov/team-pharmacy/internal/repository"
 )
 
-var ErrCategoryNotFound = errors.New("категория не найдена")
+var ErrCategoryNameRequired = errors.New("имя не может быть пустым")
 
 type CategoryService interface {
-	CreateCategory(req models.CreateCategoryRequest) (*models.Category, error)
+	CreateCategory(req models.CategoryCreateRequest) (*models.Category, error)
 
 	GetAllCategories() ([]models.Category, error)
 }
@@ -25,13 +26,16 @@ func NewCategoryService(repo repository.CategoryRepository) CategoryService {
 	}
 }
 
-func (s *categoryService) CreateCategory(req models.CreateCategoryRequest) (*models.Category, error) {
+func (s *categoryService) CreateCategory(req models.CategoryCreateRequest) (*models.Category, error) {
+	if strings.TrimSpace(req.Name) == "" {
+		return nil, ErrCategoryNameRequired
+	}
+
 	category := &models.Category{
 		Name: req.Name,
 	}
 
-	err := s.repo.Create(category)
-	if err != nil {
+	if err := s.repo.Create(category); err != nil {
 		return nil, err
 	}
 

@@ -1,6 +1,7 @@
 package transport
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,7 @@ func NewCategoryHandler(service service.CategoryService) *CategoryHandler {
 }
 
 func (h *CategoryHandler) CreateCategory(c *gin.Context) {
-	var req models.CreateCategoryRequest
+	var req models.CategoryCreateRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -28,12 +29,19 @@ func (h *CategoryHandler) CreateCategory(c *gin.Context) {
 
 	category, err := h.service.CreateCategory(req)
 	if err != nil {
+		if errors.Is(err, service.ErrCategoryNameRequired) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 		return
-	}
 
+	}
 	c.JSON(http.StatusCreated, category)
 }
 
@@ -45,6 +53,5 @@ func (h *CategoryHandler) GetAllCategories(c *gin.Context) {
 		})
 		return
 	}
-
 	c.JSON(http.StatusOK, categories)
 }

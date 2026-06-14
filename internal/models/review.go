@@ -7,8 +7,6 @@ type Review struct {
 	Rating     int    `json:"rating"`
 	Text       string `json:"text"`
 
-	User string
-
 	Medicine Medicine `json:"-"`
 }
 

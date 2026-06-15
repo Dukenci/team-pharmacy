@@ -15,36 +15,39 @@ import (
 func main() {
 	db := config.SetUpDatabaseConnection()
 
-	if err := db.AutoMigrate(); err != nil {
+	if err := db.AutoMigrate(&models.Category{}, &models.Subcategory{}); err != nil {
 		log.Fatalf("не удалось выполнить миграции: %v", err)
 	}
+		// -TODO: перекинуть юзера
+		// err := db.AutoMigrate(&models.User{})
+		// if err != nil {
+		// 	fmt.Println("Миграция не удалась", err)
+		// }
+
+	categoryRepo := repository.NewCategoryRepository(db)
+	subcategoryRepo := repository.NewSubcategoryRepository(db)
+	
+	userRepo := repository.NewUserRepository(db)
+	// userRepo ...
+	
+	categoryService := service.NewCategoryService(categoryRepo)
+	subcategoryService := service.NewSubcategoryService(subcategoryRepo, categoryRepo)
+	userService := service.NewUserService(userRepo)
+	// userService ,,,
 
 	router := gin.Default()
 
-	transport.RegisterRoutes(router, db)
+	transport.RegisterRoutes(router, categoryService, subcategoryService) // ...userService
 
 	if err := router.Run(); err != nil {
 		log.Fatalf("не удалось запустить HTTP-сервер: %v", err)
 	}
 
-	err := db.AutoMigrate(&models.User{})
-	if err != nil {
-		fmt.Println("Миграция не удалась", err)
-	}
-
-	transport.RegisterRoutes(router, db)
 
 	if err := router.Run(); err != nil {
 		log.Fatalf("не удалось запустить HTTP-сервер: %v", err)
 	}
 
-	
-	userRepo := repository.NewUserRepository(db)
-	userService := service.NewUserService(userRepo)
-
-
-	// Передаем движок и сервис в транспортный слой
-	transport.RegisterUserRoutes(router, userService)
 
 	router.Run(":8888")
 

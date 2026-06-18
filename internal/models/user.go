@@ -8,7 +8,6 @@ type User struct {
 	Email    string `json:"email" `
 	Phone    string `json:"phone" `
 	DefaultAddress string `json:"default_adress"`
-	
 }
 
 type UserCreateRequest struct {

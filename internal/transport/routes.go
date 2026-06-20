@@ -5,12 +5,14 @@ import (
 	"github.com/itsvagapov/team-pharmacy/internal/service"
 )
 
-func RegisterRoutes(router *gin.Engine, categoryService service.CategoryService, subcategoryService service.SubcategoryService, reviewService service.ReviewService) {
+func RegisterRoutes(router *gin.Engine, categoryService service.CategoryService, subcategoryService service.SubcategoryService, reviewService service.ReviewService, medicineService service.MedicineService) {
 	categoryHandler := NewCategoryHandler(categoryService)
 	subcategoryHandler := NewSubcategoryHandler(subcategoryService)
 	reviewHandler := NewReviewHandler(reviewService)
+	medicineHandler := NewMedicineHandler(medicineService)
 
 	categoryHandler.RegisterRoutes(router)
 	subcategoryHandler.RegisterRoutes(router)
 	reviewHandler.RegisterRoutes(router)
+	medicineHandler.RegisterRoutes(router)
 }

@@ -14,7 +14,7 @@ import (
 func main() {
 	db := config.SetUpDatabaseConnection()
 
-	if err := db.AutoMigrate(&models.Category{}, &models.Subcategory{}); err != nil {
+	if err := db.AutoMigrate(&models.Category{}, &models.Subcategory{}, &models.CartItem{}, &models.Order{}, &models.OrderItem{}); err != nil {
 		log.Fatalf("не удалось выполнить миграции: %v", err)
 	}
 	// -TODO: перекинуть юзера
@@ -28,15 +28,19 @@ func main() {
 
 	userRepo := repository.NewUserRepository(db)
 	// userRepo ...
+	cartRepo := repository.NewCartRepository(db)
+	orderRepo := repository.NewOrderRepository(db)
 
 	categoryService := service.NewCategoryService(categoryRepo)
 	subcategoryService := service.NewSubcategoryService(subcategoryRepo, categoryRepo)
 	userService := service.NewUserService(userRepo)
 	// userService ,,,
+	cartService := service.NewCartService(cartRepo, medRepo, userRepo)
+	orderService := service.NewOrderService(orderRepo, cartRepo, medRepo, userRepo, promocodeRepo, paymentRepo)
 
 	router := gin.Default()
 
-	transport.RegisterRoutes(router, categoryService, subcategoryService, userService) // ...userService
+	transport.RegisterRoutes(router, categoryService, subcategoryService, userService,cartService,orderService) // ...userService
 
 	if err := router.Run(); err != nil {
 		log.Fatalf("не удалось запустить HTTP-сервер: %v", err)

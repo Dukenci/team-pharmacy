@@ -35,8 +35,8 @@ func main() {
 	subcategoryService := service.NewSubcategoryService(subcategoryRepo, categoryRepo)
 	userService := service.NewUserService(userRepo)
 	// userService ,,,
-	cartService := service.NewCartService(cartRepo, medRepo, userRepo)
-	orderService := service.NewOrderService(orderRepo, cartRepo, medRepo, userRepo, promocodeRepo, paymentRepo)
+	cartService := service.NewCartService(cartRepo, medicineRepo, userRepo)
+	orderService := service.NewOrderService(orderRepo, cartRepo, medicineRepo, userRepo, promocodeRepo, paymentRepo)
 
 	router := gin.Default()
 

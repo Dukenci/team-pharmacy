@@ -67,6 +67,6 @@ type OrderWithPayments struct {
 	Comment         string      `json:"comment"`
 	PromocodeCode   string      `json:"promocode"`
 	Items           []OrderItem `json:"items"`
-	Payments        []Payment   `json:"payments"`
+	//Payments        []Payment  `json:"payments"`
 	TotalPaid       float64     `json:"total_paid"`
 }

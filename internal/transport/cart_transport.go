@@ -5,14 +5,16 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/itsvagapov/team-pharmacy/internal/apperrors"
 	"github.com/itsvagapov/team-pharmacy/internal/models"
+	"github.com/itsvagapov/team-pharmacy/internal/service"
 )
 
 type CartHandler struct {
-	service services.CartService
+	service service.CartService
 }
 
-func NewCartHandler(service services.CartService) *CartHandler {
+func NewCartHandler(service service.CartService) *CartHandler {
 	return &CartHandler{service: service}
 }
 

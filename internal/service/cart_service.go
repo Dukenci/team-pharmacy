@@ -1,10 +1,9 @@
 package service
 
 import (
+	"github.com/itsvagapov/team-pharmacy/internal/apperrors"
 	"github.com/itsvagapov/team-pharmacy/internal/models"
 	"github.com/itsvagapov/team-pharmacy/internal/repository"
-	"pharmacy-project/internal/apperrors"
-	
 )
 
 type CartService interface {

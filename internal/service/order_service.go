@@ -4,6 +4,9 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+	"github.com/itsvagapov/team-pharmacy/internal/repository"
+	"github.com/itsvagapov/team-pharmacy/internal/apperrors"
+	"github.com/itsvagapov/team-pharmacy/internal/models"
 )
 
 type OrderService interface {
@@ -170,7 +173,7 @@ func (s *orderService) CreateOrder(userID uint, req *models.OrderCreate) (*model
 		PromocodeCode:   order.PromocodeCode,
 	}
 
-	//МЕНЯТЬ С ПОМОЩЬЮ ВЫЗОВА РЕПОЗИТОРИЯ ПРОМО
+	//МЕНЯТЬ  c РЕПОЗИТОРИЯ ПРОМО
 	if promo != nil {
 		promo.UsedCount++
 

@@ -5,14 +5,16 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/itsvagapov/team-pharmacy/internal/apperrors"
 	"github.com/itsvagapov/team-pharmacy/internal/models"
+	"github.com/itsvagapov/team-pharmacy/internal/service"
 )
 
 type OrderHandler struct {
-	service services.OrderService
+	service service.OrderService
 }
 
-func NewOrderHandler(service services.OrderService) *OrderHandler {
+func NewOrderHandler(service service.OrderService) *OrderHandler {
 	return &OrderHandler{service: service}
 }
 

@@ -1,13 +1,14 @@
 package models
 
-type Review struct {
-	ID         uint   `gorm:"primaryKey" json:"id"`
-	UserID     uint   `json:"user_id"`
-	MedicineID uint   `json:"medicine_id"`
-	Rating     int    `json:"rating"`
-	Text       string `json:"text"`
+import "time"
 
-	User string
+type Review struct {
+	ID         uint      `gorm:"primaryKey" json:"id"`
+	UserID     uint      `json:"user_id"`
+	MedicineID uint      `json:"medicine_id"`
+	Rating     int       `json:"rating"`
+	Text       string    `json:"text"`
+	CreatedAt  time.Time `json:"created_at"`
 
 	Medicine Medicine `json:"-"`
 }
@@ -19,5 +20,6 @@ type ReviewCreateRequest struct {
 }
 
 type ReviewUpdateRequest struct {
-	Text *string `json:"text"`
+	Rating *int    `json:"rating"`
+	Text   *string `json:"text"`
 }

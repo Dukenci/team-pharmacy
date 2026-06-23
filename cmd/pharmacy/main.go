@@ -22,17 +22,26 @@ func main() {
 	subcategoryRepo := repository.NewSubcategoryRepository(db)
 	reviewRepo := repository.NewReviewRepository(db)
 	medicineRepo := repository.NewMedicineRepository(db)
+	userRepo := repository.NewUserRepository(db)
 
 	categoryService := service.NewCategoryService(categoryRepo)
 	subcategoryService := service.NewSubcategoryService(subcategoryRepo, categoryRepo)
 	reviewService := service.NewReviewService(reviewRepo, medicineRepo)
 	medicineService := service.NewMedicineService(medicineRepo, categoryRepo, subcategoryRepo)
+	userService := service.NewUserService(userRepo)
 
 	router := gin.Default()
 
-	transport.RegisterRoutes(router, categoryService, subcategoryService, reviewService, medicineService)
+	transport.RegisterRoutes(router, categoryService, subcategoryService, reviewService, medicineService, userService)
 
 	if err := router.Run(); err != nil {
 		log.Fatalf("не удалось запустить HTTP-сервер: %v", err)
 	}
+
+	if err := router.Run(); err != nil {
+		log.Fatalf("не удалось запустить HTTP-сервер: %v", err)
+	}
+
+	router.Run(":8888")
+
 }
